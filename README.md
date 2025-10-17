@@ -14,7 +14,7 @@ A lightweight Model Context Protocol (MCP) server that provides AI clients with 
 ## Installation
 
 ```bash
-npm install -g @jirikobelka/server-closedloop
+npm install -g @closedloop-ai/mcp-client
 ```
 
 ## Configuration
@@ -33,7 +33,7 @@ Add this configuration to your Claude Desktop app:
   "mcpServers": {
     "closedloop": {
       "command": "npx",
-      "args": ["@jirikobelka/server-closedloop"],
+      "args": ["@closedloop-ai/mcp-client"],
       "env": {
         "CLOSEDLOOP_API_KEY": "your-api-key-here",
         "CLOSEDLOOP_SERVER_URL": "https://mcp.closedloop.sh"
