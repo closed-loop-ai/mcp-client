@@ -1,0 +1,28 @@
+{
+  "name": "@jirikobelka/server-closedloop",
+  "version": "1.0.0",
+  "description": "ClosedLoop MCP Server for AI client integration",
+  "main": "index.js",
+  "bin": {
+    "closedloop-mcp": "./index.js"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.5.0",
+    "axios": "^1.6.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "mcp",
+    "ai",
+    "closedloop",
+    "feedback",
+    "analytics"
+  ],
+  "author": "ClosedLoop",
+  "license": "MIT"
+}
