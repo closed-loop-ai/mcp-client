@@ -18,7 +18,7 @@ if (!CLOSEDLOOP_API_KEY) {
 const server = new Server(
   {
     name: 'closedloop-mcp-server',
-    version: '1.1.0',
+    version: '1.1.2',
     description: 'Provides access to ClosedLoop AI product feedback data and insights with advanced search capabilities.',
   },
   {
@@ -178,7 +178,16 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         if (!args.query) {
           throw new Error('query is required');
         }
-        response = await axios.post(`${CLOSEDLOOP_SERVER_URL}/search`, args, {
+        // Use MCP protocol for search_insights
+        response = await axios.post(CLOSEDLOOP_SERVER_URL, {
+          jsonrpc: '2.0',
+          id: 1,
+          method: 'tools/call',
+          params: {
+            name: 'search_insights',
+            arguments: args
+          }
+        }, {
           headers
         });
         break;
@@ -187,11 +196,17 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         throw new Error(`Unknown tool: ${name}`);
     }
 
+    // Handle MCP protocol response for search_insights
+    let responseData = response.data;
+    if (name === 'search_insights' && responseData.result) {
+      responseData = responseData.result;
+    }
+
     return {
       content: [
         {
           type: 'text',
-          text: JSON.stringify(response.data, null, 2)
+          text: JSON.stringify(responseData, null, 2)
         }
       ]
     };
