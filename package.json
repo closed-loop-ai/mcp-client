@@ -1,7 +1,7 @@
 {
   "name": "@closedloop-ai/mcp-client",
-  "version": "1.0.2",
-  "description": "ClosedLoop MCP Server for AI client integration",
+  "version": "1.1.0",
+  "description": "ClosedLoop MCP Server for AI client integration with advanced search capabilities",
   "main": "index.js",
   "bin": {
     "closedloop-mcp": "./index.js"
@@ -21,7 +21,9 @@
     "ai",
     "closedloop",
     "feedback",
-    "analytics"
+    "analytics",
+    "search",
+    "full-text-search"
   ],
   "author": "ClosedLoop",
   "license": "MIT"

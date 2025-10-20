@@ -18,8 +18,8 @@ if (!CLOSEDLOOP_API_KEY) {
 const server = new Server(
   {
     name: 'closedloop-mcp-server',
-    version: '1.0.0',
-    description: 'Provides access to ClosedLoop AI product feedback data and insights.',
+    version: '1.1.0',
+    description: 'Provides access to ClosedLoop AI product feedback data and insights with advanced search capabilities.',
   },
   {
     capabilities: {
@@ -73,6 +73,70 @@ const tools = [
       },
       required: ['insight_id']
     }
+  },
+  {
+    name: 'search_insights',
+    description: 'Search insights using full-text search across multiple fields',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        query: {
+          type: 'string',
+          description: 'Search query text (works in any language)'
+        },
+        fields: {
+          type: 'array',
+          items: { 
+            type: 'string',
+            enum: ['signal_title', 'content', 'pain_point', 'workaround', 'use_case', 'feature_area', 'competitor_gap', 'willingness_to_pay']
+          },
+          description: 'Specific fields to search in (optional - searches all if not specified)'
+        },
+        date_from: {
+          type: 'string',
+          format: 'date',
+          description: 'Start date for insights (YYYY-MM-DD)'
+        },
+        date_to: {
+          type: 'string',
+          format: 'date',
+          description: 'End date for insights (YYYY-MM-DD)'
+        },
+        severity: {
+          type: 'string',
+          enum: ['critical', 'high', 'medium', 'low'],
+          description: 'Filter by severity level'
+        },
+        category: {
+          type: 'string',
+          enum: [
+            'Bug', 'Performance Issue', 'Security Issue', 'Feature Request', 
+            'Improvement', 'UX/UI Issue', 'Documentation', 'Integration Issue', 
+            'Missing Functionality'
+          ],
+          description: 'Filter by category'
+        },
+        source: {
+          type: 'string',
+          description: 'Filter by integration source'
+        },
+        page: {
+          type: 'integer',
+          minimum: 1,
+          maximum: 1000,
+          default: 1,
+          description: 'Page number for pagination'
+        },
+        limit: {
+          type: 'integer',
+          minimum: 1,
+          maximum: 100,
+          default: 20,
+          description: 'Number of insight items per page'
+        }
+      },
+      required: ['query']
+    }
   }
 ];
 
@@ -106,6 +170,15 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           throw new Error('insight_id is required');
         }
         response = await axios.get(`${CLOSEDLOOP_SERVER_URL}/feedbacks/${args.insight_id}`, {
+          headers
+        });
+        break;
+
+      case 'search_insights':
+        if (!args.query) {
+          throw new Error('query is required');
+        }
+        response = await axios.post(`${CLOSEDLOOP_SERVER_URL}/search`, args, {
           headers
         });
         break;
