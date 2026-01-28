@@ -228,4 +228,4 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 const transport = new StdioServerTransport();
 server.connect(transport);
 
-console.error('ClosedLoop MCP Server started');
+console.error('ClosedLoop AI MCP Client started');

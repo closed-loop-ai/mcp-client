@@ -1,6 +1,6 @@
-# ClosedLoop MCP Server
+# ClosedLoop AI MCP Client
 
-A lightweight Model Context Protocol (MCP) server that provides AI clients with access to ClosedLoop customer feedback data and advanced search capabilities.
+A lightweight Model Context Protocol (MCP) client that provides AI assistants with access to ClosedLoop AI customer feedback data and advanced search capabilities.
 
 ## Features
 
@@ -23,7 +23,7 @@ npm install -g @closedloop-ai/mcp-client
 
 Set the following environment variables:
 
-- `CLOSEDLOOP_API_KEY`: Your ClosedLoop API key (required)
+- `CLOSEDLOOP_API_KEY`: Your ClosedLoop AI API key (required)
 - `CLOSEDLOOP_SERVER_URL`: Server URL (default: https://mcp.closedloop.sh)
 
 ## Usage with Claude
