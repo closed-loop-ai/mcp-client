@@ -32,7 +32,7 @@ const server = new Server(
 const tools = [
   {
     name: 'list_insights',
-    description: 'Retrieve customer insights with optional filtering and pagination',
+    description: 'Retrieve product insights with optional filtering, sorting, and pagination',
     inputSchema: {
       type: 'object',
       properties: {
@@ -42,9 +42,37 @@ const tools = [
           format: 'date'
         },
         date_to: {
-          type: 'string', 
+          type: 'string',
           description: 'End date for insights (YYYY-MM-DD)',
           format: 'date'
+        },
+        severity: {
+          type: 'string',
+          enum: ['critical', 'high', 'medium', 'low', 'all'],
+          description: 'Filter by severity level (default: all)'
+        },
+        status: {
+          type: 'string',
+          enum: ['open', 'closed', 'all'],
+          description: 'Filter by insight status (default: all)'
+        },
+        source_id: {
+          type: 'string',
+          description: 'Filter by integration source UUID'
+        },
+        tag: {
+          type: 'string',
+          description: 'Filter by tag (letters, numbers, underscores, hyphens only)'
+        },
+        sort_by: {
+          type: 'string',
+          enum: ['timestamp', 'severity', 'status'],
+          description: 'Field to sort by (default: timestamp)'
+        },
+        sort_order: {
+          type: 'string',
+          enum: ['asc', 'desc'],
+          description: 'Sort direction (default: desc)'
         },
         page: {
           type: 'integer',
