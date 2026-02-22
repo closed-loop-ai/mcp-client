@@ -5,6 +5,8 @@ const { StdioServerTransport } = require('@modelcontextprotocol/sdk/server/stdio
 const { CallToolRequestSchema, ListToolsRequestSchema } = require('@modelcontextprotocol/sdk/types.js');
 const axios = require('axios');
 
+const { applyPrivacyMask, PRIVACY_MODE } = require('./privacy');
+
 // Get configuration from environment
 const CLOSEDLOOP_API_KEY = process.env.CLOSEDLOOP_API_KEY;
 const CLOSEDLOOP_SERVER_URL = process.env.CLOSEDLOOP_SERVER_URL || 'https://mcp.closedloop.sh';
@@ -266,6 +268,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     let responseData = response.data;
     if (name === 'search_insights' && responseData.result) {
       responseData = responseData.result;
+    }
+
+    if (PRIVACY_MODE) {
+      responseData = applyPrivacyMask(responseData);
     }
 
     return {
