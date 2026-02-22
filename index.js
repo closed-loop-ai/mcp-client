@@ -165,6 +165,34 @@ const tools = [
       },
       required: ['query']
     }
+  },
+  {
+    name: 'get_planning_context',
+    description: 'Get customer evidence for a feature or task before planning/implementing. Returns semantically matched patterns ranked by business impact, deal blockers, churn risks, affected CRM deals, and individual signals with full context. Call this before writing any implementation plan.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        query: {
+          type: 'string',
+          description: 'Task or feature description to find relevant customer evidence for'
+        },
+        limit_patterns: {
+          type: 'integer',
+          minimum: 1,
+          maximum: 20,
+          default: 5,
+          description: 'Max patterns to return (default 5)'
+        },
+        limit_signals: {
+          type: 'integer',
+          minimum: 1,
+          maximum: 20,
+          default: 10,
+          description: 'Max individual signals to return (default 10)'
+        }
+      },
+      required: ['query']
+    }
   }
 ];
 
@@ -217,6 +245,16 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           }
         }, {
           headers
+        });
+        break;
+
+      case 'get_planning_context':
+        if (!args.query) {
+          throw new Error('query is required');
+        }
+        response = await axios.get(`${CLOSEDLOOP_SERVER_URL}/planning-context`, {
+          headers,
+          params: args
         });
         break;
 
