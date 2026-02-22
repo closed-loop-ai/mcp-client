@@ -183,12 +183,12 @@ const tools = [
           default: 5,
           description: 'Max patterns to return (default 5)'
         },
-        limit_signals: {
+        limit_insights: {
           type: 'integer',
           minimum: 1,
           maximum: 20,
           default: 10,
-          description: 'Max individual signals to return (default 10)'
+          description: 'Max individual insights to return (default 10)'
         }
       },
       required: ['query']
